@@ -14,6 +14,7 @@ Button mBtnStart;
 
 int mImgArray[] = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3, R.drawable.banner4, R.drawable.banner5};
 int mindex = 1;
+boolean misRunning = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,24 +26,27 @@ int mindex = 1;
         mBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CountDownTimer countDownTimer = new CountDownTimer(1200, 1000) {
-                    @Override
-                    public void onTick(long l) {
-                        if(mindex >= mImgArray.length){
-                            mindex = 0;
+                if(!misRunning == true) {
+                    CountDownTimer countDownTimer = new CountDownTimer(1200, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            misRunning = true;
+                            if (mindex >= mImgArray.length) {
+                                mindex = 0;
+                            }
+                            if (l >= 1000) {
+                                mImgView.setImageResource(mImgArray[mindex]);
+                                mindex++;
+                            }
                         }
-                        if(l >= 1000){
-                            mImgView.setImageResource(mImgArray[mindex]);
-                            mindex++;
-                        }
-                    }
 
-                    @Override
-                    public void onFinish() {
-                        this.start();
-                    }
-                };
-                countDownTimer.start();
+                        @Override
+                        public void onFinish() {
+                            this.start();
+                        }
+                    };
+                    countDownTimer.start();
+                }
             }
         });
 
